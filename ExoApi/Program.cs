@@ -1,3 +1,4 @@
+using ExoApi;
 using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,8 @@ builder.Services.AddTransient<SqlConnection>(option =>
     string connectionString = builder.Configuration.GetConnectionString("Server=127.0.0.1,1400;Database=ChessTournament;User Id=SA;Password=Test1234=;TrustServerCertificate=True;");
     return new SqlConnection(connectionString);
 });
+
+builder.Services.AddTransient<UserServices>();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
