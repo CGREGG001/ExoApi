@@ -85,7 +85,7 @@ public class UserServices
         }
     }
 
-    public void UpdateUser(User user)
+    public void UpdateUser(int id, User user)
     {
         using (SqlCommand sqlCommand = Connection.CreateCommand())
         {
@@ -98,7 +98,7 @@ public class UserServices
         }
     }
 
-    public User? Login(string email, string password)
+    public User? Login(string email)
     {
         using (SqlCommand sqlCommand = Connection.CreateCommand())
         {
