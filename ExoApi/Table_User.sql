@@ -8,3 +8,5 @@ CREATE TABLE [User] (
     Email VARCHAR(100) NOT NULL,
     Password VARCHAR(255) NOT NULL
 );
+
+INSERT INTO [User] (UserName, Email, Password) VALUES ('John', 'john@api.com', 'MonBeauPassword');

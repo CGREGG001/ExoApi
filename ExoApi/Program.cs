@@ -7,7 +7,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddTransient<SqlConnection>(option =>
 {
-    string connectionString = builder.Configuration.GetConnectionString("Server=127.0.0.1,1400;Database=ChessTournament;User Id=SA;Password=Test1234=;TrustServerCertificate=True;");
+    string connectionString = builder.Configuration.GetConnectionString("Server=127.0.0.1,1400;Database=ExoApi;User Id=SA;Password=Test1234=;TrustServerCertificate=True;");
     return new SqlConnection(connectionString);
 });
 
