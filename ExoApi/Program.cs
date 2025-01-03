@@ -5,11 +5,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddTransient<SqlConnection>(option =>
-{
-    string connectionString = builder.Configuration.GetConnectionString("Server=127.0.0.1,1400;Database=ExoApi;User Id=SA;Password=Test1234=;TrustServerCertificate=True;");
-    return new SqlConnection(connectionString);
-});
+// builder.Services.AddTransient<SqlConnection>(option =>
+// {
+//     string connectionString = builder.Configuration.GetConnectionString("Server=127.0.0.1,1400;Database=ExoApi;User Id=SA;Password=Test1234=;TrustServerCertificate=True;")!;
+//     return new SqlConnection(connectionString);
+// });
+
+builder.Services.AddTransient<SqlConnection>( c => new SqlConnection(builder.Configuration.GetConnectionString("Server=127.0.0.1,1400;Database=ExoApi;User Id=SA;Password=Test1234=;TrustServerCertificate=True;")));
 
 builder.Services.AddTransient<UserServices>();
 
@@ -28,5 +30,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();

@@ -5,7 +5,6 @@ namespace ExoApi
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class UserController : ControllerBase
     {
         public UserServices UserServices;
@@ -15,7 +14,7 @@ namespace ExoApi
             UserServices = userServices;
         }
 
-        [HttpGet("getAll")]
+        [HttpGet]
         [AllowAnonymous]
         public IActionResult GetAllUsers()
         {

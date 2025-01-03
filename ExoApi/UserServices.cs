@@ -1,6 +1,6 @@
-using System;
 using System.Data;
 using Microsoft.Data.SqlClient;
+
 
 namespace ExoApi;
 
@@ -19,7 +19,7 @@ public class UserServices
         using (SqlCommand sqlCommand = Connection.CreateCommand())
         {
             sqlCommand.CommandType = CommandType.Text;
-            sqlCommand.CommandText = @"SELECT * FROM [User]";
+            sqlCommand.CommandText = "SELECT * FROM [User]";
 
             Connection.Open();
 
@@ -30,9 +30,9 @@ public class UserServices
                     users.Add(new User
                     {
                         Id = (int)reader["Id"],
-                        Username = reader["Username"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        Password = reader["Password"].ToString()
+                        Username = reader["Username"].ToString()!,
+                        Email = reader["Email"].ToString()!,
+                        Password = reader["Password"].ToString()!
                     });
                 }
             }
@@ -44,12 +44,12 @@ public class UserServices
     }
 
 
-    public User GetUserById(int id)
+    public User? GetUserById(int id)
     {
         using (SqlCommand sqlCommand = Connection.CreateCommand())
         {
             sqlCommand.CommandType = CommandType.Text;
-            sqlCommand.CommandText = $"SELECT * FROM [User] WHERE Id = {id}";
+            sqlCommand.CommandText = $"SELECT * FROM [User] WHERE 'Id' = {id}";
 
             Connection.Open();
 
@@ -60,9 +60,9 @@ public class UserServices
                     User user = new User
                     {
                         Id = (int)reader["Id"],
-                        Username = reader["Username"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        Password = reader["Password"].ToString()
+                        Username = reader["Username"].ToString()!,
+                        Email = reader["Email"].ToString()!,
+                        Password = reader["Password"].ToString()!
                     };
                     return user;
                 }
@@ -72,16 +72,18 @@ public class UserServices
         Connection.Close();
         return null;
     }
-    public void DeleteUser(int id)
+    public bool DeleteUser(int id)
     {
         using (SqlCommand sqlCommand = Connection.CreateCommand())
         {
             sqlCommand.CommandType = CommandType.Text;
-            sqlCommand.CommandText = $"DELETE FROM [User] WHERE Id = {id}";
+            sqlCommand.CommandText = $"DELETE FROM [User] WHERE 'Id' = {id}";
 
             Connection.Open();
-            sqlCommand.ExecuteNonQuery();
+            int rowsAffected = sqlCommand.ExecuteNonQuery();
             Connection.Close();
+            
+            return rowsAffected > 0;
         }
     }
 
@@ -90,7 +92,7 @@ public class UserServices
         using (SqlCommand sqlCommand = Connection.CreateCommand())
         {
             sqlCommand.CommandType = CommandType.Text;
-            sqlCommand.CommandText = $"UPDATE [User] SET Username = '{user.Username}', Email = '{user.Email}', Password = '{user.Password}' WHERE Id = {user.Id}";
+            sqlCommand.CommandText = $"UPDATE [User] SET Username = '{user.Username}', Email = '{user.Email}', Password = '{user.Password}' WHERE 'Id' = {user.Id}";
 
             Connection.Open();
             sqlCommand.ExecuteNonQuery();
@@ -114,9 +116,9 @@ public class UserServices
                     User user = new User
                     {
                         Id = (int)reader["Id"],
-                        Username = reader["Username"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        Password = reader["Password"].ToString()
+                        Username = reader["Username"].ToString()!,
+                        Email = reader["Email"].ToString()!,
+                        Password = reader["Password"].ToString()!
                     };
                     return user;
                 }
