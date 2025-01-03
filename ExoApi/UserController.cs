@@ -5,16 +5,19 @@ namespace ExoApi
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         public UserServices UserServices;
+        public AuthService AuthService;
 
-        public UserController(UserServices userServices)
+        public UserController(UserServices userServices, AuthService authService)
         {
             UserServices = userServices;
+            AuthService = authService;
         }
 
-        [HttpGet]
+        [HttpGet("getAll")]
         [AllowAnonymous]
         public IActionResult GetAllUsers()
         {
@@ -31,7 +34,6 @@ namespace ExoApi
         }
 
         [HttpDelete("delete/{id:int}")]
-        [AllowAnonymous]
         public IActionResult DeleteUser(int id)
         {
             UserServices.DeleteUser(id);
@@ -39,7 +41,6 @@ namespace ExoApi
         }
 
         [HttpPatch("update/{id:int}")]
-        [AllowAnonymous]
         public IActionResult UpdateUser(int id, [FromBody] User user)
         {
             UserServices.UpdateUser(id, user);
@@ -51,7 +52,14 @@ namespace ExoApi
         public IActionResult LoginUser([FromBody] User user)
         {
             User? newUser = UserServices.Login(user.Email);
-            return Ok(newUser);
+
+            if (newUser == null)
+            {
+                return Unauthorized(new { message = "Login failed." });
+            }
+            
+            string token = AuthService.GenerateToken(newUser);
+            return Ok(token);
         }
 
         [HttpPost("register")]
