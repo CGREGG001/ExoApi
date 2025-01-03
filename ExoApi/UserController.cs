@@ -26,7 +26,7 @@ namespace ExoApi
         [AllowAnonymous]
         public IActionResult GetUserById(int id)
         {
-            User user = UserServices.GetUserById(id);
+            User? user = UserServices.GetUserById(id);
             return Ok(user);
         }
 

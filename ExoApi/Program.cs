@@ -11,9 +11,9 @@ builder.Services.AddControllers();
 //     return new SqlConnection(connectionString);
 // });
 
-builder.Services.AddTransient<SqlConnection>( c => new SqlConnection(builder.Configuration.GetConnectionString("Server=127.0.0.1,1400;Database=ExoApi;User Id=SA;Password=Test1234=;TrustServerCertificate=True;")));
+builder.Services.AddScoped<SqlConnection>( c => new SqlConnection("Server=127.0.0.1,1400;Database=ExoApi;User Id=SA;Password=Test1234=;TrustServerCertificate=True;"));
 
-builder.Services.AddTransient<UserServices>();
+builder.Services.AddScoped<UserServices>();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

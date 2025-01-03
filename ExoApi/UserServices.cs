@@ -1,7 +1,6 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 
-
 namespace ExoApi;
 
 public class UserServices
@@ -49,7 +48,7 @@ public class UserServices
         using (SqlCommand sqlCommand = Connection.CreateCommand())
         {
             sqlCommand.CommandType = CommandType.Text;
-            sqlCommand.CommandText = $"SELECT * FROM [User] WHERE 'Id' = {id}";
+            sqlCommand.CommandText = $"SELECT * FROM [User] WHERE {id} = Id";
 
             Connection.Open();
 
@@ -77,7 +76,7 @@ public class UserServices
         using (SqlCommand sqlCommand = Connection.CreateCommand())
         {
             sqlCommand.CommandType = CommandType.Text;
-            sqlCommand.CommandText = $"DELETE FROM [User] WHERE 'Id' = {id}";
+            sqlCommand.CommandText = $"DELETE FROM [User] WHERE Id = {id}";
 
             Connection.Open();
             int rowsAffected = sqlCommand.ExecuteNonQuery();
@@ -92,7 +91,7 @@ public class UserServices
         using (SqlCommand sqlCommand = Connection.CreateCommand())
         {
             sqlCommand.CommandType = CommandType.Text;
-            sqlCommand.CommandText = $"UPDATE [User] SET Username = '{user.Username}', Email = '{user.Email}', Password = '{user.Password}' WHERE 'Id' = {user.Id}";
+            sqlCommand.CommandText = $"UPDATE [User] SET Username = '{user.Username}', Email = '{user.Email}', Password = '{user.Password}' WHERE Id = {user.Id}";
 
             Connection.Open();
             sqlCommand.ExecuteNonQuery();
